@@ -48,3 +48,39 @@ export default tseslint.config({
   },
 });
 ```
+
+### test dependencies
+
+```
+npm install -D  jest-environment-jsdom @testing-library/react @testing-library/jest-dom @testing-library/user-event @types/jest esbuild esbuild-jest ts-jest
+```
+
+### test jest 설정
+
+jest.config.ts 파일 설정
+
+```typescript
+module.exports = {
+  testEnvironment: "jest-environment-jsdom",
+  moduleFileExtensions: ["js", "jsx", "ts", "tsx"],
+  transform: { "^.+\\.(ts|tsx)$": ["esbuild-jest", { sourcemap: true }] },
+  setupFilesAfterEnv: ["<rootDir>/jest.setup.ts"],
+};
+```
+
+jest.setup.ts 파일 설정
+
+```typescript
+import "@testing-library/jest-dom";
+import React from "react";
+
+global.React = React;
+```
+
+Nextjs 에서는 아래와 같이 테스트 파일 첫줄에 설정 필요
+
+```typescript
+/**
+ * @jest-environment jest-environment-dom
+ */
+```
